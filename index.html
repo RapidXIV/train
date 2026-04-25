@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Train">
+<meta name="theme-color" content="#0c0c0c">
+<title>Train</title>
+<style>
+:root {
+  --bg:#0c0c0c; --card:#1a1a1a; --card2:#202020; --border:#282828;
+  --text:#f0ede8; --muted:#606060; --muted2:#444;
+  --yoga:#4ade80; --shoulder:#60a5fa; --cond:#fb923c;
+  --sab:env(safe-area-inset-bottom,20px); --sat:env(safe-area-inset-top,44px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;overflow:hidden;font-size:16px}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column}
+
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:calc(var(--sat) + 8px);padding-bottom:24px;display:none}
+.scr.on{display:block}
+
+nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--border);padding-bottom:var(--sab);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-shrink:0}
+.nt{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0 7px;font-size:10px;letter-spacing:.03em;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .15s;font-family:inherit}
+.nt.on{color:var(--text)}
+.ni{font-size:22px;line-height:1.1}
+
+.hd{padding:4px 20px 18px}
+.hd h1{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1.1}
+.hd p{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* ── LOG SCREEN ── */
+.wlist{padding:0 16px;display:flex;flex-direction:column;gap:10px}
+.wc{display:flex;border-radius:15px;overflow:hidden;border:.5px solid var(--border);background:var(--card)}
+.wstripe{width:4px;flex-shrink:0}
+.wb{flex:1;padding:15px 15px 14px}
+.wr{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.wn{font-size:16px;font-weight:600;margin-bottom:3px;letter-spacing:-.2px}
+.wd{font-size:12px;color:var(--muted);line-height:1.45}
+.wrt{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.lbtn{font-size:13px;font-weight:700;padding:8px 18px;border-radius:22px;border:none;cursor:pointer;color:#000;letter-spacing:-.1px}
+.dtag{font-size:11px;font-weight:600;display:flex;align-items:center;gap:3px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:11px;border-top:.5px solid var(--border)}
+.sp{font-size:11px;background:#252525;padding:4px 10px 4px 12px;border-radius:20px;color:#999;display:flex;align-items:center;gap:5px}
+.sx{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:14px;padding:0;line-height:1}
+
+/* ── MODAL ── */
+#mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:flex-end}
+#mo.on{display:flex}
+#md{background:#1c1c1e;border-radius:22px 22px 0 0;padding:20px 20px calc(var(--sab) + 22px);width:100%;animation:su .23s ease}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mh{width:36px;height:4px;background:#3a3a3a;border-radius:2px;margin:0 auto 20px}
+.mt{font-size:17px;font-weight:600;text-align:center;margin-bottom:18px;letter-spacing:-.2px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.tb{padding:14px;border-radius:13px;background:#2a2a2a;border:2px solid transparent;color:var(--text);font-size:15px;font-weight:500;cursor:pointer;text-align:center;transition:border-color .15s;font-family:inherit}
+.tb.sel{border-color:var(--cond)}
+.tr{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.tr label{font-size:13px;color:var(--muted);white-space:nowrap}
+.ti{flex:1;background:#2a2a2a;border:1.5px solid #383838;border-radius:11px;color:var(--text);font-size:24px;font-weight:600;padding:11px;text-align:center;width:100%;font-family:inherit}
+.ti:focus{outline:none;border-color:var(--cond)}
+.cb{width:100%;padding:16px;border-radius:14px;background:var(--cond);color:#000;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;letter-spacing:-.1px}
+
+/* ── PROGRESS SCREEN ── */
+.pi{padding:0 16px}
+.ov{background:var(--card);border-radius:15px;border:.5px solid var(--border);padding:18px 16px;margin-bottom:10px}
+.ol{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.op{font-size:42px;font-weight:700;letter-spacing:-2px;margin-bottom:12px;line-height:1}
+.bb{height:11px;background:#222;border-radius:6px;overflow:hidden}
+.bf{height:100%;border-radius:6px;transition:width 1.1s cubic-bezier(.4,0,.2,1);width:0%}
+.sl2{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.sc{background:var(--card);border-radius:15px;border:.5px solid var(--border);padding:15px 16px}
+.st{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.sn{font-size:14px;font-weight:600;letter-spacing:-.2px}
+.spct{font-size:13px;color:var(--muted)}
+.sbg{height:8px;background:#222;border-radius:4px;overflow:hidden;margin-bottom:8px}
+.sbf{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1);width:0%}
+.sf{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+
+/* ── WEEK GRID ── */
+.wgs{margin-bottom:4px}
+.wgt{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.wgr{display:grid;grid-template-columns:20px repeat(7,1fr);gap:4px;margin-bottom:4px;align-items:center}
+.wgl{font-size:10px;color:var(--muted);text-align:center}
+.dd{aspect-ratio:1;border-radius:7px;background:#161616;border:.5px solid #252525;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;min-height:34px;transition:background .2s,border-color .2s}
+.dd.fut{opacity:.2}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TODAY -->
+  <div id="sl" class="scr on">
+    <div class="hd"><h1 id="dh">Today</h1><p id="ds"></p></div>
+    <div class="wlist" id="wl"></div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div id="sp" class="scr">
+    <div class="hd"><h1>Progress</h1><p id="ps"></p></div>
+    <div class="pi">
+      <div class="ov">
+        <div class="ol">3-week goal</div>
+        <div class="op" id="op">0%</div>
+        <div class="bb"><div class="bf" id="bf"></div></div>
+      </div>
+      <div class="sl2" id="sl2"></div>
+      <div class="wgs">
+        <div class="wgt">Activity log</div>
+        <div id="wg"></div>
+      </div>
+    </div>
+  </div>
+
+  <nav>
+    <button class="nt on" id="nl" onclick="sw('l')"><span class="ni">◎</span>Today</button>
+    <button class="nt" id="np" onclick="sw('p')"><span class="ni">▦</span>Progress</button>
+  </nav>
+</div>
+
+<!-- CONDITIONING MODAL -->
+<div id="mo" onclick="mc(event)">
+  <div id="md">
+    <div class="mh"></div>
+    <div class="mt">Log Conditioning</div>
+    <div class="tg">
+      <button class="tb sel" id="tbr" onclick="st2('running')">🏃 Running</button>
+      <button class="tb" id="tbb" onclick="st2('boxing')">🥊 Boxing</button>
+    </div>
+    <div class="tr">
+      <label>Minutes</label>
+      <input type="number" id="tm" class="ti" placeholder="45" min="1" max="360" inputmode="numeric">
+    </div>
+    <button class="cb" onclick="lc()">Log Session</button>
+  </div>
+</div>
+
+<script>
+const K='train_v3';
+const G={yoga:9,shoulder:9,conditioning:540};
+const C={yoga:'#4ade80',shoulder:'#60a5fa',conditioning:'#fb923c'};
+const NM={yoga:'Bikram Yoga',shoulder:'Shoulder Health',conditioning:'Conditioning'};
+let ct='running';
+
+function ld(){try{return JSON.parse(localStorage.getItem(K))||{};}catch{return {};}}
+function sd(s){localStorage.setItem(K,JSON.stringify(s));}
+function gs(){const s=ld();if(!s.start){s.start=td();sd(s);}if(!s.sess)s.sess=[];return s;}
+function td(){const d=new Date();return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
+function p2(n){return String(n).padStart(2,'0');}
+function pd2(str){const[y,m,d]=str.split('-').map(Number);return new Date(y,m-1,d);}
+function dbt(a,b){return Math.round((b-a)/86400000);}
+function ds2(d){return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
+
+function sw(t){
+  document.getElementById('sl').classList.toggle('on',t==='l');
+  document.getElementById('sp').classList.toggle('on',t==='p');
+  document.getElementById('nl').classList.toggle('on',t==='l');
+  document.getElementById('np').classList.toggle('on',t==='p');
+  if(t==='p')rp();
+}
+
+// ── TODAY SCREEN ──────────────────────────────────────
+function rl(){
+  const s=gs();
+  const today=td();
+  const diff=dbt(pd2(s.start),new Date());
+  const wk=Math.floor(diff/7)+1;
+  const dy=diff%7+1;
+  const dn=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const now=new Date();
+  document.getElementById('dh').textContent=`${dn[now.getDay()]}, ${mn[now.getMonth()]} ${now.getDate()}`;
+  if(diff<0) document.getElementById('ds').textContent=`Program starts ${s.start}`;
+  else if(diff>=21) document.getElementById('ds').textContent='Program complete!';
+  else document.getElementById('ds').textContent=`Week ${Math.min(3,wk)} · Day ${dy} of 7`;
+
+  const ts=s.sess.map((x,i)=>({...x,_i:i})).filter(x=>x.date===today);
+  const c=document.getElementById('wl');
+  c.innerHTML='';
+
+  [{type:'yoga',desc:'90 min · 26 postures, heat, breath'},
+   {type:'shoulder',desc:'20 min · Band work, Cuban press, Y-T-W, face pulls'},
+   {type:'conditioning',desc:'Boxing or running · Enter your time'},
+  ].forEach(w=>{
+    const ws=ts.filter(x=>x.type===w.type);
+    const done=ws.length>0;
+    const pillsHTML=done?`<div class="pills">${ws.map(x=>{
+      const lbl=w.type==='conditioning'?`${x.subtype==='boxing'?'🥊':'🏃'} ${x.duration} min`:`✓ ${x.duration} min`;
+      return `<span class="sp">${lbl}<button class="sx" onclick="ds3(${x._i})">×</button></span>`;
+    }).join('')}</div>`:'';
+
+    c.innerHTML+=`
+    <div class="wc">
+      <div class="wstripe" style="background:${C[w.type]}"></div>
+      <div class="wb">
+        <div class="wr">
+          <div style="flex:1;min-width:0">
+            <div class="wn">${NM[w.type]}</div>
+            <div class="wd">${w.desc}</div>
+          </div>
+          <div class="wrt">
+            <button class="lbtn" style="background:${C[w.type]}" onclick="lw('${w.type}')">Log</button>
+            ${done?`<div class="dtag" style="color:${C[w.type]}">✓ Done</div>`:''}
+          </div>
+        </div>
+        ${pillsHTML}
+      </div>
+    </div>`;
+  });
+}
+
+function lw(type){
+  if(type==='conditioning'){mo();return;}
+  const s=gs();
+  s.sess.push({type,date:td(),duration:{yoga:90,shoulder:20}[type]});
+  sd(s);rl();
+}
+
+function ds3(i){
+  const s=gs();s.sess.splice(i,1);sd(s);rl();
+}
+
+// ── MODAL ─────────────────────────────────────────────
+function mo(){
+  document.getElementById('mo').classList.add('on');
+  document.getElementById('tm').value='';
+  setTimeout(()=>document.getElementById('tm').focus(),320);
+}
+function mc(e){if(e.target===document.getElementById('mo'))document.getElementById('mo').classList.remove('on');}
+function st2(t){
+  ct=t;
+  document.getElementById('tbr').classList.toggle('sel',t==='running');
+  document.getElementById('tbb').classList.toggle('sel',t==='boxing');
+}
+function lc(){
+  const m=parseInt(document.getElementById('tm').value);
+  if(!m||m<1)return;
+  const s=gs();
+  s.sess.push({type:'conditioning',date:td(),duration:m,subtype:ct});
+  sd(s);
+  document.getElementById('mo').classList.remove('on');
+  rl();
+}
+
+// ── PROGRESS SCREEN ───────────────────────────────────
+function fmt(m){
+  if(m<=0)return'';
+  const h=Math.floor(m/60),rm=Math.round(m%60);
+  if(h===0)return`${m} min left`;
+  return rm===0?`${h}h left`:`${h}h ${rm}m left`;
+}
+
+function rp(){
+  const s=gs();
+  const sess=s.sess;
+  const yc=sess.filter(x=>x.type==='yoga').length;
+  const sc=sess.filter(x=>x.type==='shoulder').length;
+  const cm=sess.filter(x=>x.type==='conditioning').reduce((a,x)=>a+x.duration,0);
+  const yp=Math.min(100,Math.round(yc/G.yoga*100));
+  const sp=Math.min(100,Math.round(sc/G.shoulder*100));
+  const cp=Math.min(100,Math.round(cm/G.conditioning*100));
+  const ov=Math.round((yp+sp+cp)/3);
+
+  const diff=Math.max(0,Math.min(21,dbt(pd2(s.start),new Date())));
+  document.getElementById('ps').textContent=`Day ${diff} of 21`;
+  document.getElementById('op').textContent=`${ov}%`;
+
+  const bf=document.getElementById('bf');
+  bf.style.background=`linear-gradient(90deg,${C.yoga} 0%,${C.shoulder} 50%,${C.cond} 100%)`;
+  setTimeout(()=>{bf.style.width=`${ov}%`;},80);
+
+  const sl=document.getElementById('sl2');
+  sl.innerHTML='';
+
+  [{key:'yoga',pct:yp,val:`${yc} / ${G.yoga} sessions`,rem:yc>=G.yoga?'':` ${G.yoga-yc} to go`},
+   {key:'shoulder',pct:sp,val:`${sc} / ${G.shoulder} sessions`,rem:sc>=G.shoulder?'':` ${G.shoulder-sc} to go`},
+   {key:'conditioning',pct:cp,val:`${cm} / ${G.conditioning} min`,rem:fmt(Math.max(0,G.conditioning-cm))},
+  ].forEach(d=>{
+    const id=`b${d.key}`;
+    sl.innerHTML+=`
+    <div class="sc">
+      <div class="st">
+        <div class="sn">${NM[d.key]}</div>
+        <div class="spct">${d.pct}%</div>
+      </div>
+      <div class="sbg"><div class="sbf" id="${id}" style="background:${C[d.key]}"></div></div>
+      <div class="sf">
+        <span>${d.val}</span>
+        <span style="color:${d.pct>=100?C[d.key]:'var(--muted)'}">${d.pct>=100?'✓ Complete':d.rem}</span>
+      </div>
+    </div>`;
+    setTimeout(()=>{const el=document.getElementById(id);if(el)el.style.width=`${d.pct}%`;},160);
+  });
+
+  // Activity grid
+  const wg=document.getElementById('wg');
+  wg.innerHTML=`<div class="wgr"><div></div>${['M','T','W','T','F','S','S'].map(l=>`<div class="wgl">${l}</div>`).join('')}</div>`;
+  for(let w=0;w<3;w++){
+    let row=`<div class="wgr"><div class="wgl">W${w+1}</div>`;
+    for(let d=0;d<7;d++){
+      const off=w*7+d;
+      const dd=new Date(pd2(s.start).getTime()+off*86400000);
+      const dstr=ds2(dd);
+      const fut=dd>new Date();
+      const day=sess.filter(x=>x.date===dstr);
+      let sty='',inner='';
+      if(!fut&&day.length>0){
+        const types=[...new Set(day.map(x=>x.type))];
+        if(types.length===1){
+          sty=`background:${C[types[0]]}25;border-color:${C[types[0]]};color:${C[types[0]]}`;
+          inner=`${day.length}`;
+        } else {
+          sty=`background:#242424;border-color:#444`;
+          inner=`<div style="display:flex;gap:2px">${types.map(t=>`<div style="width:5px;height:5px;border-radius:50%;background:${C[t]}"></div>`).join('')}</div>`;
+        }
+      }
+      row+=`<div class="dd${fut?' fut':''}" style="${sty}">${inner}</div>`;
+    }
+    wg.innerHTML+=row+'</div>';
+  }
+}
+
+rl();
+</script>
+</body>
+</html>
