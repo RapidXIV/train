@@ -145,7 +145,7 @@ let ct='running';
 
 function ld(){try{return JSON.parse(localStorage.getItem(K))||{};}catch{return {};}}
 function sd(s){localStorage.setItem(K,JSON.stringify(s));}
-function gs(){const s=ld();if(!s.start){s.start=td();sd(s);}if(!s.sess)s.sess=[];return s;}
+function gs(){const s=ld();if(!s.start){s.start='2026-04-25';sd(s);}if(!s.sess)s.sess=[];return s;}
 function td(){const d=new Date();return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
 function pd2(str){const[y,m,d]=str.split('-').map(Number);return new Date(y,m-1,d);}
@@ -295,7 +295,7 @@ function rp(){
 
   // Activity grid
   const wg=document.getElementById('wg');
-  wg.innerHTML=`<div class="wgr"><div></div>${['M','T','W','T','F','S','S'].map(l=>`<div class="wgl">${l}</div>`).join('')}</div>`;
+  wg.innerHTML=`<div class="wgr"><div></div>${['Sa','Su','M','T','W','Th','F'].map(l=>`<div class="wgl">${l}</div>`).join('')}</div>`;
   for(let w=0;w<3;w++){
     let row=`<div class="wgr"><div class="wgl">W${w+1}</div>`;
     for(let d=0;d<7;d++){
