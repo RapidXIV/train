@@ -137,7 +137,7 @@ nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--borde
 </div>
 
 <script>
-const K='train_v3';
+const K='train_v4';
 const G={yoga:9,shoulder:9,conditioning:540};
 const C={yoga:'#4ade80',shoulder:'#60a5fa',conditioning:'#fb923c'};
 const NM={yoga:'Bikram Yoga',shoulder:'Shoulder Health',conditioning:'Conditioning'};
@@ -145,7 +145,7 @@ let ct='running';
 
 function ld(){try{return JSON.parse(localStorage.getItem(K))||{};}catch{return {};}}
 function sd(s){localStorage.setItem(K,JSON.stringify(s));}
-function gs(){const s=ld();if(!s.start){s.start='2026-04-25';sd(s);}if(!s.sess)s.sess=[];return s;}
+function gs(){const s=ld();s.start='2026-04-25';if(!s.sess)s.sess=[];return s;}
 function td(){const d=new Date();return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
 function pd2(str){const[y,m,d]=str.split('-').map(Number);return new Date(y,m-1,d);}
@@ -164,14 +164,14 @@ function sw(t){
 function rl(){
   const s=gs();
   const today=td();
-  const diff=dbt(pd2(s.start),new Date());
+  const diff=dbt(pd2(s.start),pd2(today));
   const wk=Math.floor(diff/7)+1;
   const dy=diff%7+1;
   const dn=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const now=new Date();
   document.getElementById('dh').textContent=`${dn[now.getDay()]}, ${mn[now.getMonth()]} ${now.getDate()}`;
-  if(diff<0) document.getElementById('ds').textContent=`Program starts ${s.start}`;
+  if(today<s.start) document.getElementById('ds').textContent=`Program starts Saturday, Apr 25`;
   else if(diff>=21) document.getElementById('ds').textContent='Program complete!';
   else document.getElementById('ds').textContent=`Week ${Math.min(3,wk)} · Day ${dy} of 7`;
 
@@ -262,7 +262,7 @@ function rp(){
   const cp=Math.min(100,Math.round(cm/G.conditioning*100));
   const ov=Math.round((yp+sp+cp)/3);
 
-  const diff=Math.max(0,Math.min(21,dbt(pd2(s.start),new Date())));
+  const diff=Math.max(0,Math.min(21,dbt(pd2(s.start),pd2(td()))));
   document.getElementById('ps').textContent=`Day ${diff} of 21`;
   document.getElementById('op').textContent=`${ov}%`;
 
