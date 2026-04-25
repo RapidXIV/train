@@ -13,6 +13,7 @@
   --bg:#0c0c0c;--card:#1a1a1a;--border:#282828;
   --text:#f0ede8;--muted:#606060;--muted2:#444;
   --yoga:#4ade80;--shoulder:#60a5fa;--cond:#fb923c;--med:#a78bfa;
+  --lift:#e74c3c;--lift2:#ff6b6b;
   --sab:env(safe-area-inset-bottom,20px);--sat:env(safe-area-inset-top,44px);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -21,17 +22,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .scr{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:calc(var(--sat)+8px);padding-bottom:24px;display:none}
 .scr.on{display:block}
 nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--border);padding-bottom:var(--sab);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-shrink:0}
-.nt{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0 7px;font-size:10px;letter-spacing:.03em;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .15s;font-family:inherit}
+.nt{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0 6px;font-size:9px;letter-spacing:.02em;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .15s;font-family:inherit}
 .nt.on{color:var(--text)}
-.ni{font-size:20px;line-height:1.2}
+.ni{font-size:18px;line-height:1.2}
 .hd{padding:4px 20px 14px}
 .hd h1{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1.1}
 .hd p{font-size:13px;color:var(--muted);margin-top:4px}
+/* streak */
 .streak-wrap{padding:0 16px 14px}
 .streak-pill{display:inline-flex;align-items:center;gap:8px;background:#1e1a0e;border:.5px solid #fb923c55;border-radius:22px;padding:8px 16px}
 .s-num{font-size:22px;font-weight:700;letter-spacing:-1px;color:#fb923c}
 .s-txt{font-size:12px;color:#fb923c;opacity:.8}
 .s-zero{display:inline-flex;align-items:center;gap:6px;background:#1a1a1a;border:.5px solid var(--border);border-radius:22px;padding:7px 14px;font-size:12px;color:var(--muted)}
+/* workout cards */
 .wlist{padding:0 16px;display:flex;flex-direction:column;gap:10px}
 .wc{display:flex;border-radius:15px;overflow:hidden;border:.5px solid var(--border);background:var(--card)}
 .wstripe{width:4px;flex-shrink:0}
@@ -45,6 +48,7 @@ nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--borde
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:.5px solid var(--border)}
 .sp2{font-size:11px;background:#252525;padding:4px 10px 4px 12px;border-radius:20px;color:#999;display:flex;align-items:center;gap:5px}
 .sx{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:14px;padding:0;line-height:1}
+/* modal */
 #mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:flex-end}
 #mo.on{display:flex}
 #md{background:#1c1c1e;border-radius:22px 22px 0 0;padding:20px 20px calc(var(--sab)+22px);width:100%;animation:su .23s ease}
@@ -59,6 +63,7 @@ nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--borde
 .ti{flex:1;background:#2a2a2a;border:1.5px solid #383838;border-radius:11px;color:var(--text);font-size:24px;font-weight:600;padding:11px;text-align:center;width:100%;font-family:inherit}
 .ti:focus{outline:none;border-color:var(--cond)}
 .cb{width:100%;padding:16px;border-radius:14px;background:var(--cond);color:#000;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit}
+/* progress */
 .pi{padding:0 16px}
 .ov{background:var(--card);border-radius:15px;border:.5px solid var(--border);padding:18px 16px;margin-bottom:10px}
 .ol{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
@@ -79,6 +84,7 @@ nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--borde
 .wgl{font-size:10px;color:var(--muted);text-align:center}
 .dd{aspect-ratio:1;border-radius:7px;background:#161616;border:.5px solid #252525;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;min-height:34px}
 .dd.fut{opacity:.2}
+/* achievements */
 .ai{padding:0 16px}
 .sec-hd{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
 .sum-card{background:var(--card);border-radius:16px;border:.5px solid #a78bfa44;padding:18px 16px;margin-bottom:16px}
@@ -100,15 +106,51 @@ nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--borde
 .ac-name{font-size:13px;font-weight:600;margin-bottom:3px}
 .ac-desc{font-size:11px;color:var(--muted);line-height:1.4}
 .ac-badge{font-size:10px;font-weight:700;margin-top:7px}
+/* lifts log screen */
+.li{padding:0 16px}
+.session-badge{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:10px 16px;margin-bottom:16px;font-size:14px;font-weight:700;letter-spacing:-.1px}
+.lift-card{background:var(--card);border:.5px solid var(--border);border-radius:15px;padding:15px 16px;margin-bottom:10px}
+.lift-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.lift-name{font-size:15px;font-weight:600;letter-spacing:-.2px}
+.lift-sets{font-size:12px;color:var(--muted)}
+.lift-row{display:flex;align-items:center;gap:10px}
+.lift-weight{background:#222;border:1.5px solid #383838;border-radius:10px;color:var(--text);font-size:22px;font-weight:700;padding:10px;text-align:center;width:110px;font-family:inherit}
+.lift-weight:focus{outline:none;border-color:var(--lift2)}
+.lift-unit{font-size:13px;color:var(--muted)}
+.lift-pr{font-size:11px;font-weight:600;margin-top:6px}
+.fail-btn{padding:7px 14px;border-radius:20px;border:1px solid #444;background:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:inherit;margin-left:auto;transition:all .15s}
+.fail-btn.failed{background:#3a1010;border-color:#cc3333;color:#ff6666}
+.log-sess-btn{width:100%;padding:16px;border-radius:14px;background:var(--lift);color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:6px}
+.prev-session{background:var(--card);border:.5px solid var(--border);border-radius:13px;padding:13px 16px;margin-bottom:16px}
+.prev-title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.prev-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;border-bottom:.5px solid var(--border)}
+.prev-row:last-child{border-bottom:none}
+/* lift stats */
+.ls{padding:0 16px}
+.lift-stat-card{background:var(--card);border:.5px solid var(--border);border-radius:15px;padding:15px 16px;margin-bottom:12px}
+.ls-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.ls-name{font-size:15px;font-weight:600}
+.ls-pr{text-align:right}
+.ls-pr-val{font-size:20px;font-weight:700;letter-spacing:-1px;color:var(--lift2)}
+.ls-pr-lbl{font-size:10px;color:var(--muted)}
+.chart-wrap{height:100px;display:flex;align-items:flex-end;gap:3px;padding-top:4px}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;height:100%}
+.bar{border-radius:3px 3px 0 0;min-height:3px;transition:height .5s cubic-bezier(.4,0,.2,1);width:100%}
+.bar-lbl{font-size:8px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
+.no-data{font-size:13px;color:var(--muted);text-align:center;padding:20px 0}
+.lift-ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
 </style>
 </head>
 <body>
 <div id="app">
+  <!-- TODAY -->
   <div id="sl" class="scr on">
     <div class="hd"><h1 id="dh">Today</h1><p id="ds"></p></div>
     <div class="streak-wrap" id="swrap"></div>
+    <div id="badge-wrap" style="padding:0 16px 14px;display:flex;flex-wrap:wrap;gap:6px"></div>
     <div class="wlist" id="wl"></div>
   </div>
+  <!-- PROGRESS -->
   <div id="sp" class="scr">
     <div class="hd"><h1>Progress</h1><p id="ps"></p></div>
     <div class="pi">
@@ -121,16 +163,30 @@ nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--borde
       <div class="wgs"><div class="wgt">Activity log</div><div id="wg"></div></div>
     </div>
   </div>
+  <!-- ACHIEVEMENTS -->
   <div id="sa" class="scr">
     <div class="hd"><h1>Achievements</h1><p id="aps"></p></div>
     <div class="ai" id="ai"></div>
+  </div>
+  <!-- LIFTS LOG -->
+  <div id="sli" class="scr">
+    <div class="hd"><h1>Stronglifts</h1><p id="lis"></p></div>
+    <div class="li" id="li"></div>
+  </div>
+  <!-- LIFT STATS -->
+  <div id="sls" class="scr">
+    <div class="hd"><h1>Lift Stats</h1><p id="lss"></p></div>
+    <div class="ls" id="ls"></div>
   </div>
   <nav>
     <button class="nt on" id="nl"><span class="ni">◎</span>Today</button>
     <button class="nt" id="np"><span class="ni">▦</span>Progress</button>
     <button class="nt" id="na"><span class="ni">🏆</span>Achieved</button>
+    <button class="nt" id="nli"><span class="ni">🏋</span>Lifts</button>
+    <button class="nt" id="nls"><span class="ni">📈</span>Stats</button>
   </nav>
 </div>
+<!-- CONDITIONING/MEDITATION MODAL -->
 <div id="mo">
   <div id="md">
     <div class="mh"></div>
@@ -146,16 +202,44 @@ nav{display:flex;background:rgba(12,12,12,.96);border-top:.5px solid var(--borde
     <button class="cb" id="cbtn">Log Session</button>
   </div>
 </div>
+
 <script>
+// ── CONSTANTS ─────────────────────────────────────────
 const K='train_v4';
+const KL='lifts_v1';
 const G={yoga:9,shoulder:9,conditioning:540,meditation:105};
 const C={yoga:'#4ade80',shoulder:'#60a5fa',conditioning:'#fb923c',meditation:'#a78bfa'};
 const NM={yoga:'Bikram Yoga',shoulder:'Shoulder Health',conditioning:'Conditioning',meditation:'Meditation'};
 let ct='running', modalType='conditioning';
 
+const LIFTS={
+  squat:  {name:'Squat',      sets:'5×5', inc:10, default:185},
+  bench:  {name:'Bench Press',sets:'5×5', inc:5,  default:185},
+  row:    {name:'Barbell Row',sets:'5×5', inc:5,  default:135},
+  ohp:    {name:'OHP',        sets:'5×5', inc:5,  default:115},
+  deadlift:{name:'Deadlift',  sets:'1×5', inc:10, default:315},
+};
+const WA=['squat','bench','row'];
+const WB=['squat','ohp','deadlift'];
+
+// ── STORAGE ───────────────────────────────────────────
 function ld(){try{return JSON.parse(localStorage.getItem(K))||{};}catch{return {};}}
 function sd(s){localStorage.setItem(K,JSON.stringify(s));}
 function gs(){const s=ld();if(!s.start)s.start='2026-04-25';if(!s.sess)s.sess=[];return s;}
+
+function ldl(){try{return JSON.parse(localStorage.getItem(KL))||{};}catch{return {};}}
+function sdl(s){localStorage.setItem(KL,JSON.stringify(s));}
+function gls(){
+  const s=ldl();
+  if(!s.sessions) s.sessions=[];
+  if(!s.weights){
+    s.weights={};
+    Object.keys(LIFTS).forEach(k=>{ s.weights[k]=LIFTS[k].default; });
+  }
+  return s;
+}
+
+// ── HELPERS ───────────────────────────────────────────
 function td(){const d=new Date();return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
 function pd2(str){const[y,m,d]=str.split('-').map(Number);return new Date(y,m-1,d);}
@@ -164,6 +248,7 @@ function ds2(d){return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate(
 function fmtM(m){if(!m||m<=0)return'';const h=Math.floor(m/60),r=Math.round(m%60);return h===0?`${m} min left`:r===0?`${h}h left`:`${h}h ${r}m left`;}
 function fmtT(m){if(!m)return'—';const h=Math.floor(m/60),r=m%60;return h===0?`${m}min`:r===0?`${h}h`:`${h}h ${r}m`;}
 
+// ── STREAK ────────────────────────────────────────────
 function calcStreak(s){
   const dates=new Set(s.sess.map(x=>x.date));
   const today=td();
@@ -173,7 +258,6 @@ function calcStreak(s){
   while(true){const ds=ds2(d);if(ds<s.start)break;if(dates.has(ds)){n++;d.setDate(d.getDate()-1);}else break;}
   return n;
 }
-
 function calcBest(s){
   const dates=new Set(s.sess.map(x=>x.date));
   const start=pd2(s.start);
@@ -185,7 +269,6 @@ function calcBest(s){
   }
   return best;
 }
-
 function getPRs(s){
   const sess=s.sess;
   const cond=sess.filter(x=>x.type==='conditioning');
@@ -196,7 +279,6 @@ function getPRs(s){
   const md=Object.values(byD).length?Math.max(...Object.values(byD)):0;
   return{longestCond:lc,longestMed:lm,maxDay:md,bestStreak:calcBest(s)};
 }
-
 function weekDone(s,wi){
   const start=pd2(s.start);
   const wd=new Set();
@@ -204,31 +286,69 @@ function weekDone(s,wi){
   return new Set(s.sess.filter(x=>wd.has(x.date)).map(x=>x.date)).size>=5;
 }
 
+// ── LIFT HELPERS ──────────────────────────────────────
+function getLiftPR(key){
+  const s=gls();
+  const vals=s.sessions.map(sess=>sess.lifts[key]?.weight||0).filter(v=>v>0);
+  return vals.length?Math.max(...vals):0;
+}
+function getLiftHistory(key){
+  const s=gls();
+  return s.sessions.map(sess=>({
+    date:sess.date,
+    weight:sess.lifts[key]?.weight||null,
+    failed:sess.lifts[key]?.failed||false,
+  })).filter(x=>x.weight);
+}
+function nextSession(){
+  const s=gls();
+  return s.sessions.length%2===0?'A':'B';
+}
+function getNextWeights(){
+  const s=gls();
+  return {...s.weights};
+}
+
+// ── ACHIEVEMENTS ──────────────────────────────────────
 const ACHS=[
-  {id:'first',  ico:'⚡',name:'First Rep',       desc:'Log your first workout',                      col:'#facc15',check:s=>s.sess.length>0},
-  {id:'s3',     ico:'🔥',name:'3-Day Streak',    desc:'3 consecutive days with any workout',         col:'#fb923c',check:s=>calcBest(s)>=3},
-  {id:'s7',     ico:'🔥',name:'Week Warrior',    desc:'7 consecutive days logged',                   col:'#f97316',check:s=>calcBest(s)>=7},
-  {id:'s21',    ico:'💎',name:'Unbroken',        desc:'All 21 days — not one missed',                col:'#a78bfa',check:s=>calcBest(s)>=21},
-  {id:'perfect',ico:'⭐',name:'Perfect Day',     desc:'All 4 workouts in one day',                   col:'#facc15',check:s=>{const b={};s.sess.forEach(x=>{if(!b[x.date])b[x.date]=new Set();b[x.date].add(x.type);});return Object.values(b).some(t=>t.size>=4);}},
-  {id:'iron',   ico:'🏋',name:'Iron Session',    desc:'90+ min conditioning in a single session',   col:'#fb923c',check:s=>s.sess.some(x=>x.type==='conditioning'&&x.duration>=90)},
-  {id:'deep',   ico:'🧘',name:'Deep Sit',        desc:'30+ min meditation in a single session',     col:'#a78bfa',check:s=>s.sess.some(x=>x.type==='meditation'&&x.duration>=30)},
-  {id:'w1',     ico:'✅',name:'Week 1 Done',     desc:'Active 5 of 7 days in week 1',               col:'#4ade80',check:s=>weekDone(s,0)},
-  {id:'w2',     ico:'✅',name:'Week 2 Done',     desc:'Active 5 of 7 days in week 2',               col:'#4ade80',check:s=>weekDone(s,1)},
-  {id:'w3',     ico:'✅',name:'Week 3 Done',     desc:'Active 5 of 7 days in week 3',               col:'#4ade80',check:s=>weekDone(s,2)},
-  {id:'done',   ico:'🏆',name:'Program Complete',desc:'All 21 days are behind you',                 col:'#facc15',check:s=>dbt(pd2(s.start),pd2(td()))>=20},
+  {id:'first',  ico:'⚡',name:'First Rep',       desc:'Log your first workout',                     col:'#facc15',check:s=>s.sess.length>0},
+  {id:'s3',     ico:'🔥',name:'3-Day Streak',    desc:'3 consecutive days with any workout',        col:'#fb923c',check:s=>calcBest(s)>=3},
+  {id:'s7',     ico:'🔥',name:'Week Warrior',    desc:'7 consecutive days logged',                  col:'#f97316',check:s=>calcBest(s)>=7},
+  {id:'s21',    ico:'💎',name:'Unbroken',        desc:'All 21 days — not one missed',               col:'#a78bfa',check:s=>calcBest(s)>=21},
+  {id:'perfect',ico:'⭐',name:'Perfect Day',     desc:'All 4 workouts in one day',                  col:'#facc15',check:s=>{const b={};s.sess.forEach(x=>{if(!b[x.date])b[x.date]=new Set();b[x.date].add(x.type);});return Object.values(b).some(t=>t.size>=4);}},
+  {id:'iron',   ico:'🏋',name:'Iron Session',    desc:'90+ min conditioning in one session',        col:'#fb923c',check:s=>s.sess.some(x=>x.type==='conditioning'&&x.duration>=90)},
+  {id:'deep',   ico:'🧘',name:'Deep Sit',        desc:'30+ min meditation in one session',          col:'#a78bfa',check:s=>s.sess.some(x=>x.type==='meditation'&&x.duration>=30)},
+  {id:'w1',     ico:'✅',name:'Week 1 Done',     desc:'Active 5 of 7 days in week 1',              col:'#4ade80',check:s=>weekDone(s,0)},
+  {id:'w2',     ico:'✅',name:'Week 2 Done',     desc:'Active 5 of 7 days in week 2',              col:'#4ade80',check:s=>weekDone(s,1)},
+  {id:'w3',     ico:'✅',name:'Week 3 Done',     desc:'Active 5 of 7 days in week 3',              col:'#4ade80',check:s=>weekDone(s,2)},
+  {id:'done',   ico:'🏆',name:'Program Complete',desc:'All 21 days are behind you',                col:'#facc15',check:s=>dbt(pd2(s.start),pd2(td()))>=20},
 ];
-
+const LIFT_ACHS=[
+  {id:'l_first',   ico:'🏋',name:'First Lift',      desc:'Log your first Stronglifts session',    col:'#e74c3c', check:()=>gls().sessions.length>0},
+  {id:'l_10sess',  ico:'🔟',name:'Ten Sessions',    desc:'Complete 10 Stronglifts sessions',      col:'#e74c3c', check:()=>gls().sessions.length>=10},
+  {id:'l_squat315',ico:'🔱',name:'315 Squat',       desc:'Squat 315 lbs',                         col:'#ff6b6b', check:()=>getLiftPR('squat')>=315},
+  {id:'l_bench315',ico:'💪',name:'315 Bench',       desc:'Bench press 315 lbs',                   col:'#ff6b6b', check:()=>getLiftPR('bench')>=315},
+  {id:'l_dead315', ico:'⚰️',name:'315 Deadlift',    desc:'Deadlift 315 lbs',                      col:'#ff6b6b', check:()=>getLiftPR('deadlift')>=315},
+  {id:'l_ohp185',  ico:'🙌',name:'185 OHP',         desc:'Overhead press 185 lbs',                col:'#ff6b6b', check:()=>getLiftPR('ohp')>=185},
+  {id:'l_row185',  ico:'🚣',name:'185 Row',         desc:'Barbell row 185 lbs',                   col:'#ff6b6b', check:()=>getLiftPR('row')>=185},
+  {id:'l_club',    ico:'👑',name:'315 Club',        desc:'Squat, bench, AND deadlift all at 315+', col:'#facc15', check:()=>getLiftPR('squat')>=315&&getLiftPR('bench')>=315&&getLiftPR('deadlift')>=315},
+];
 function getUnlocked(s){return new Set(ACHS.filter(a=>a.check(s)).map(a=>a.id));}
+function getLiftUnlocked(){return new Set(LIFT_ACHS.filter(a=>a.check()).map(a=>a.id));}
 
+// ── NAV ───────────────────────────────────────────────
 function goTo(t){
-  ['l','p','a'].forEach(x=>{
+  ['l','p','a','li','ls'].forEach(x=>{
     document.getElementById('s'+x).classList.toggle('on',x===t);
     document.getElementById('n'+x).classList.toggle('on',x===t);
   });
   if(t==='p')rp();
   if(t==='a')ra();
+  if(t==='li')renderLifts();
+  if(t==='ls')renderLiftStats();
 }
 
+// ── TODAY SCREEN ──────────────────────────────────────
 function rl(){
   const s=gs();
   const today=td();
@@ -248,7 +368,18 @@ function rl(){
     swrap.innerHTML=streak>0
       ?`<div class="streak-pill"><span style="font-size:18px">🔥</span><span class="s-num">${streak}</span><span class="s-txt">day streak</span></div>`
       :`<div class="s-zero">No streak yet — log something today</div>`;
-  } else { swrap.innerHTML=''; }
+  } else swrap.innerHTML='';
+
+  // achievement badges
+  const unlocked=getUnlocked(s);
+  const liftUnlocked=getLiftUnlocked();
+  const allUnlocked=[...ACHS.filter(a=>unlocked.has(a.id)),...LIFT_ACHS.filter(a=>liftUnlocked.has(a.id))];
+  const badgeWrap=document.getElementById('badge-wrap');
+  if(allUnlocked.length>0){
+    badgeWrap.innerHTML=`<div style="display:flex;flex-wrap:wrap;gap:6px;">${allUnlocked.map(a=>`<div title="${a.name}" style="background:#1c1c1c;border:.5px solid ${a.col}44;border-radius:10px;padding:6px 10px;display:flex;align-items:center;gap:5px;"><span style="font-size:16px">${a.ico}</span><span style="font-size:11px;font-weight:600;color:${a.col}">${a.name}</span></div>`).join('')}</div>`;
+  } else {
+    badgeWrap.innerHTML='';
+  }
 
   const ts=s.sess.map((x,i)=>({...x,_i:i})).filter(x=>x.date===today);
   const all=s.sess;
@@ -300,11 +431,9 @@ function lw(type){
   s.sess.push({type,date:td(),duration:{yoga:90,shoulder:20}[type]});
   sd(s);rl();rp();
 }
+function ds3(i){const s=gs();s.sess.splice(i,1);sd(s);rl();rp();}
 
-function ds3(i){
-  const s=gs();s.sess.splice(i,1);sd(s);rl();rp();
-}
-
+// ── MODAL ─────────────────────────────────────────────
 function mopen(type){
   modalType=type;
   document.getElementById('mt').textContent=type==='meditation'?'Log Meditation':'Log Conditioning';
@@ -314,7 +443,6 @@ function mopen(type){
   document.getElementById('tm').value='';
   setTimeout(()=>document.getElementById('tm').focus(),320);
 }
-
 function lc(){
   const m=parseInt(document.getElementById('tm').value);
   if(!m||m<1)return;
@@ -326,6 +454,7 @@ function lc(){
   rl();rp();
 }
 
+// ── PROGRESS SCREEN ───────────────────────────────────
 function rp(){
   const s=gs();
   const sess=s.sess;
@@ -377,28 +506,176 @@ function rp(){
   }
 }
 
+// ── ACHIEVEMENTS SCREEN ───────────────────────────────
 function ra(){
   const s=gs();
   const sess=s.sess;
   const today=td();
   const diff=dbt(pd2(s.start),pd2(today));
   const unlocked=getUnlocked(s);
+  const liftUnlocked=getLiftUnlocked();
   const prs=getPRs(s);
   const c=document.getElementById('ai');
   c.innerHTML='';
-  document.getElementById('aps').textContent=`${unlocked.size} / ${ACHS.length} unlocked`;
+  const total=unlocked.size+liftUnlocked.size;
+  const max=ACHS.length+LIFT_ACHS.length;
+  document.getElementById('aps').textContent=`${total} / ${max} unlocked`;
+
   if(diff>=20){
     const totalMins=sess.reduce((a,x)=>a+x.duration,0);
     const th=Math.floor(totalMins/60),tm2=totalMins%60;
     const yc=sess.filter(x=>x.type==='yoga').length;
-    const sc=sess.filter(x=>x.type==='shoulder').length;
+    const sc2=sess.filter(x=>x.type==='shoulder').length;
     const cm=sess.filter(x=>x.type==='conditioning').reduce((a,x)=>a+x.duration,0);
     const mm=sess.filter(x=>x.type==='meditation').reduce((a,x)=>a+x.duration,0);
-    c.innerHTML+=`<div class="sum-card"><div class="sum-title">Program Complete</div><div class="sum-sub">3 weeks. You showed up.</div><div class="sum-grid"><div class="sum-stat"><div class="sum-val">${tm2===0?th+'h':th+'h '+tm2+'m'}</div><div class="sum-lbl">Total time trained</div></div><div class="sum-stat"><div class="sum-val">${prs.bestStreak}</div><div class="sum-lbl">Best streak (days)</div></div><div class="sum-stat"><div class="sum-val">${yc}</div><div class="sum-lbl">Yoga sessions</div></div><div class="sum-stat"><div class="sum-val">${sc}</div><div class="sum-lbl">Shoulder sessions</div></div><div class="sum-stat"><div class="sum-val">${fmtT(cm)}</div><div class="sum-lbl">Conditioning</div></div><div class="sum-stat"><div class="sum-val">${fmtT(mm)}</div><div class="sum-lbl">Meditation</div></div></div></div>`;
+    c.innerHTML+=`<div class="sum-card"><div class="sum-title">Program Complete</div><div class="sum-sub">3 weeks. You showed up.</div><div class="sum-grid"><div class="sum-stat"><div class="sum-val">${tm2===0?th+'h':th+'h '+tm2+'m'}</div><div class="sum-lbl">Total time trained</div></div><div class="sum-stat"><div class="sum-val">${prs.bestStreak}</div><div class="sum-lbl">Best streak (days)</div></div><div class="sum-stat"><div class="sum-val">${yc}</div><div class="sum-lbl">Yoga sessions</div></div><div class="sum-stat"><div class="sum-val">${sc2}</div><div class="sum-lbl">Shoulder sessions</div></div><div class="sum-stat"><div class="sum-val">${fmtT(cm)}</div><div class="sum-lbl">Conditioning</div></div><div class="sum-stat"><div class="sum-val">${fmtT(mm)}</div><div class="sum-lbl">Meditation</div></div></div></div>`;
   }
-  c.innerHTML+=`<div class="sec-hd">Personal records</div><div class="pr-grid"><div class="pr-card"><div class="pr-ico">🏃</div><div class="pr-val">${prs.longestCond?prs.longestCond+' min':'—'}</div><div class="pr-lbl">Longest conditioning session</div></div><div class="pr-card"><div class="pr-ico">🧘</div><div class="pr-val">${prs.longestMed?prs.longestMed+' min':'—'}</div><div class="pr-lbl">Longest meditation session</div></div><div class="pr-card"><div class="pr-ico">🔥</div><div class="pr-val">${prs.bestStreak||'—'}</div><div class="pr-lbl">Best streak (days)</div></div><div class="pr-card"><div class="pr-ico">⭐</div><div class="pr-val">${prs.maxDay||'—'}</div><div class="pr-lbl">Most workouts in one day</div></div></div><div class="sec-hd">Achievements</div><div class="ach-grid">${ACHS.map(a=>{const on=unlocked.has(a.id);return`<div class="ac${on?'':' locked'}"><div class="ac-ico">${a.ico}</div><div class="ac-name">${a.name}</div><div class="ac-desc">${a.desc}</div><div class="ac-badge" style="color:${on?a.col:'var(--muted2)'}">${on?'✓ Unlocked':'Locked'}</div></div>`;}).join('')}</div><div style="text-align:center;padding:16px 0 4px"><button data-action="reset" style="background:#1e0a0a;border:1px solid #7a3030;border-radius:10px;color:#e07070;font-size:13px;padding:12px 28px;cursor:pointer;font-family:inherit;font-weight:500">Reset all progress</button></div>`;
+
+  c.innerHTML+=`<div class="sec-hd">Personal records</div><div class="pr-grid"><div class="pr-card"><div class="pr-ico">🏃</div><div class="pr-val">${prs.longestCond?prs.longestCond+' min':'—'}</div><div class="pr-lbl">Longest conditioning session</div></div><div class="pr-card"><div class="pr-ico">🧘</div><div class="pr-val">${prs.longestMed?prs.longestMed+' min':'—'}</div><div class="pr-lbl">Longest meditation session</div></div><div class="pr-card"><div class="pr-ico">🔥</div><div class="pr-val">${prs.bestStreak||'—'}</div><div class="pr-lbl">Best streak (days)</div></div><div class="pr-card"><div class="pr-ico">⭐</div><div class="pr-val">${prs.maxDay||'—'}</div><div class="pr-lbl">Most workouts in one day</div></div></div>`;
+
+  c.innerHTML+=`<div class="sec-hd">Training achievements</div><div class="ach-grid">${ACHS.map(a=>{const on=unlocked.has(a.id);return`<div class="ac${on?'':' locked'}"><div class="ac-ico">${a.ico}</div><div class="ac-name">${a.name}</div><div class="ac-desc">${a.desc}</div><div class="ac-badge" style="color:${on?a.col:'var(--muted2)'}">${on?'✓ Unlocked':'Locked'}</div></div>`;}).join('')}</div>`;
+
+  c.innerHTML+=`<div class="sec-hd">Lifting achievements</div><div class="lift-ach-grid">${LIFT_ACHS.map(a=>{const on=liftUnlocked.has(a.id);return`<div class="ac${on?'':' locked'}"><div class="ac-ico">${a.ico}</div><div class="ac-name">${a.name}</div><div class="ac-desc">${a.desc}</div><div class="ac-badge" style="color:${on?a.col:'var(--muted2)'}">${on?'✓ Unlocked':'Locked'}</div></div>`;}).join('')}</div>`;
+
+  c.innerHTML+=`<div style="text-align:center;padding:16px 0 4px"><button data-action="reset" style="background:#1e0a0a;border:1px solid #7a3030;border-radius:10px;color:#e07070;font-size:13px;padding:12px 28px;cursor:pointer;font-family:inherit;font-weight:500">Reset all progress</button></div>`;
 }
 
+// ── LIFTS LOG SCREEN ──────────────────────────────────
+function renderLifts(){
+  const ls=gls();
+  const sess=ls.sessions;
+  const next=nextSession();
+  const liftsForSession=next==='A'?WA:WB;
+  const c=document.getElementById('li');
+  const prevSess=sess.length>0?sess[sess.length-1]:null;
+  document.getElementById('lis').textContent=`${sess.length} sessions logged`;
+
+  let html=`<div class="session-badge" style="background:${next==='A'?'#1a2e1a':'#1a1a2e'};border:.5px solid ${next==='A'?'#4ade8055':'#60a5fa55'};color:${next==='A'?'#4ade80':'#60a5fa'}">`;
+  html+=`<span>Workout ${next}</span><span style="font-weight:400;opacity:.7">${next==='A'?'Squat · Bench · Row':'Squat · OHP · Deadlift'}</span></div>`;
+
+  if(prevSess){
+    html+=`<div class="prev-session"><div class="prev-title">Last session (${prevSess.date})</div>`;
+    Object.entries(prevSess.lifts).forEach(([k,v])=>{
+      const n=LIFTS[k]?.name||k;
+      html+=`<div class="prev-row"><span>${n}</span><span style="color:${v.failed?'#ff6666':'var(--text)'}">${v.weight} lbs${v.failed?' (failed)':''}</span></div>`;
+    });
+    html+='</div>';
+  }
+
+  liftsForSession.forEach(key=>{
+    const lift=LIFTS[key];
+    const history=getLiftHistory(key);
+    const lastLogged=history.length?history[history.length-1].weight:LIFTS[key].default;
+    const pr=getLiftPR(key);
+    const isPR=lastLogged>pr&&pr>0;
+    html+=`<div class="lift-card">
+      <div class="lift-header">
+        <div>
+          <div class="lift-name">${lift.name}</div>
+          <div class="lift-sets">${lift.sets}</div>
+        </div>
+        <button class="fail-btn" data-fail="${key}">Missed reps</button>
+      </div>
+      <div class="lift-row">
+        <input type="number" class="lift-weight" data-wt="${key}" value="${lastLogged}" inputmode="numeric" step="5">
+        <span class="lift-unit">lbs</span>
+      </div>
+      <div class="lift-pr" style="color:${pr>0?(isPR?'#facc15':'var(--muted)'):'var(--muted)'}">
+        ${pr>0?`PR: ${pr} lbs${isPR?' 🏆 New PR!':''}` : 'No PR yet'}
+      </div>
+    </div>`;
+  });
+
+  html+=`<button class="log-sess-btn" id="logsessbtn">Log Workout ${next}</button>`;
+  c.innerHTML=html;
+
+  // attach fail toggles
+  c.querySelectorAll('[data-fail]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      btn.classList.toggle('failed');
+      btn.textContent=btn.classList.contains('failed')?'Failed ✓':'Missed reps';
+    });
+  });
+
+  document.getElementById('logsessbtn').addEventListener('click',()=>{
+    const ls2=gls();
+    const liftsData={};
+    liftsForSession.forEach(key=>{
+      const wtInput=c.querySelector(`[data-wt="${key}"]`);
+      const failBtn=c.querySelector(`[data-fail="${key}"]`);
+      const weight=parseInt(wtInput?.value)||ls2.weights[key];
+      const failed=failBtn?.classList.contains('failed')||false;
+      liftsData[key]={weight,failed};
+      // increment weight for next session if not failed
+      if(!failed){
+        ls2.weights[key]=weight+LIFTS[key].inc;
+      }
+    });
+    ls2.sessions.push({date:td(),type:next,lifts:liftsData});
+    sdl(ls2);
+    renderLifts();
+    renderLiftStats();
+  });
+}
+
+// ── LIFT STATS SCREEN ─────────────────────────────────
+function renderLiftStats(){
+  const ls=gls();
+  const c=document.getElementById('ls');
+  const liftUnlocked=getLiftUnlocked();
+  document.getElementById('lss').textContent=`${ls.sessions.length} sessions total`;
+
+  if(ls.sessions.length===0){
+    c.innerHTML=`<div class="no-data">No sessions logged yet.<br>Head to the Lifts tab to get started.</div>`;
+    return;
+  }
+
+  let html='';
+
+  // PR summary cards
+  html+=`<div class="sec-hd">Current PRs</div><div class="pr-grid">`;
+  Object.entries(LIFTS).forEach(([key,lift])=>{
+    const pr=getLiftPR(key);
+    html+=`<div class="pr-card"><div class="pr-ico">${key==='deadlift'?'⚰️':key==='squat'?'🔱':key==='bench'?'💪':key==='ohp'?'🙌':'🚣'}</div><div class="pr-val">${pr?pr+' lbs':'—'}</div><div class="pr-lbl">${lift.name}</div></div>`;
+  });
+  html+='</div>';
+
+  // Bar chart per lift
+  html+=`<div class="sec-hd">Progress by lift</div>`;
+  Object.entries(LIFTS).forEach(([key,lift])=>{
+    const history=getLiftHistory(key);
+    if(!history.length){html+=`<div class="lift-stat-card"><div class="ls-header"><div class="ls-name">${lift.name}</div></div><div class="no-data" style="padding:10px 0 4px">No data yet</div></div>`;return;}
+    const pr=Math.max(...history.map(h=>h.weight));
+    const maxW=400;
+    const recent=history.slice(-14);
+    html+=`<div class="lift-stat-card">
+      <div class="ls-header">
+        <div class="ls-name">${lift.name}</div>
+        <div class="ls-pr"><div class="ls-pr-val">${pr} lbs</div><div class="ls-pr-lbl">PR</div></div>
+      </div>
+      <div class="chart-wrap">`;
+    recent.forEach(h=>{
+      const pct=Math.round((h.weight/maxW)*100);
+      const col=h.failed?'#cc3333':'var(--lift)';
+      const shortDate=h.date.slice(5).replace('-','/');
+      html+=`<div class="bar-col">
+        <div style="font-size:8px;color:var(--muted);margin-bottom:2px;text-align:center">${h.weight}</div>
+        <div style="flex:1;display:flex;align-items:flex-end;width:100%">
+          <div style="height:${pct}%;background:${col};border-radius:3px 3px 0 0;min-height:3px;width:100%;transition:height .5s cubic-bezier(.4,0,.2,1)"></div>
+        </div>
+        <div class="bar-lbl">${shortDate}</div>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  });
+
+  // Lift achievements
+  html+=`<div class="sec-hd">Lifting achievements</div><div class="lift-ach-grid">${LIFT_ACHS.map(a=>{const on=liftUnlocked.has(a.id);return`<div class="ac${on?'':' locked'}"><div class="ac-ico">${a.ico}</div><div class="ac-name">${a.name}</div><div class="ac-desc">${a.desc}</div><div class="ac-badge" style="color:${on?a.col:'var(--muted2)'}">${on?'✓ Unlocked':'Locked'}</div></div>`;}).join('')}</div>`;
+
+  c.innerHTML=html;
+}
+
+// ── RESET ─────────────────────────────────────────────
 let resetPending=false;
 function resetAll(){
   const btn=document.querySelector('[data-action="reset"]');
@@ -416,26 +693,29 @@ function resetAll(){
   } else {
     resetPending=false;
     sd({start:td(),sess:[]});
-    rl();rp();ra();
+    localStorage.removeItem(KL);
+    rl();rp();ra();renderLifts();renderLiftStats();
   }
 }
 
-// ── Event listeners ───────────────────────────────────
+// ── EVENT LISTENERS ───────────────────────────────────
 document.getElementById('ai').addEventListener('click',e=>{
-  if(e.target.closest('[data-action="reset"]')) resetAll();
+  if(e.target.closest('[data-action="reset"]'))resetAll();
 });
 document.getElementById('nl').addEventListener('click',()=>goTo('l'));
 document.getElementById('np').addEventListener('click',()=>goTo('p'));
 document.getElementById('na').addEventListener('click',()=>goTo('a'));
+document.getElementById('nli').addEventListener('click',()=>goTo('li'));
+document.getElementById('nls').addEventListener('click',()=>goTo('ls'));
 document.getElementById('tbr').addEventListener('click',()=>{ct='running';document.getElementById('tbr').classList.add('sel');document.getElementById('tbb').classList.remove('sel');});
 document.getElementById('tbb').addEventListener('click',()=>{ct='boxing';document.getElementById('tbb').classList.add('sel');document.getElementById('tbr').classList.remove('sel');});
 document.getElementById('cbtn').addEventListener('click',lc);
 document.getElementById('mo').addEventListener('click',e=>{if(e.target===document.getElementById('mo'))document.getElementById('mo').classList.remove('on');});
 document.getElementById('wl').addEventListener('click',e=>{
   const logBtn=e.target.closest('[data-log]');
-  if(logBtn) lw(logBtn.dataset.log);
+  if(logBtn)lw(logBtn.dataset.log);
   const delBtn=e.target.closest('[data-del]');
-  if(delBtn) ds3(parseInt(delBtn.dataset.del));
+  if(delBtn)ds3(parseInt(delBtn.dataset.del));
 });
 
 rl();
